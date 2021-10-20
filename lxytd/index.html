@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="theme-color" content="#ffffff" />
+  <title>YTD</title>
+  <link rel="stylesheet" href="css/index.css" />
+</head>
+<body>
+  <nav>
+    <span class="logo">
+      LXYTD
+    </span>
+    <div class="menu">
+      <div class="dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <ul>
+        <li id="profile"><a href="" target="blank">кнопка 1</a></li>
+        <li id="api-direct"><a href="">кнопка 2</a></li>
+        <li id="tutorial">кнопка 3</li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+      <div class="form-label-group">
+        <input type="url" id="url-input" class="form-control" placeholder="URL">
+        <span>×</span>
+      </div>
+      <button class="action">»</button>
+    </div>
+
+    <div class="loader">
+      Please wait...
+    </div>
+
+    <div class="download-container">
+      <h3 class="download-title"></h3>
+      <iframe src="" frameborder="0" class="download-player" allowfullscreen></iframe>
+      <a href="#" class="download-thumbnail" target="blank" download>DOWNLOAD THUMBNAIL</a>
+      <div class="tabs">
+        <span class="selected">VIDEO</span>
+        <span>AUDIO</span>
+      </div>
+      <div class="download-view">
+              <div class="download-video"></div>
+              <div class="download-audio"></div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+</body>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
+
+:root {
+  --input-padding-x: .75rem;
+  --input-padding-y: .75rem;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  user-select: none;
+}
+
+body {
+  background-color: #fff;
+  font-family: sans-serif;
+  color: #555555;
+  font-size: 16px;
+  line-height: 1.6;
+  letter-spacing: 0.1rem;
+}
+
+input,
+textarea,
+button,
+select,
+a {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+.logo {
+  font-family: 'Righteous', cursive;
+  font-size: 2em;
+  background: -webkit-linear-gradient(red, #333);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+nav {
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  background:#fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  box-shadow: 0px 0px 5px rgba(0,0,0,0.2);
+  z-index: 5;
+}
+
+.menu {
+  position: relative;
+}
+
+.dots {
+  position: absolute;
+  top: 50%;
+  right: 0%;
+  transform: translate(0%, -50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.dots > span {
+  width: 5px;
+  height: 5px;
+  border-radius: 8px;
+  background: rgba(0,0,0,0.2);
+  margin: 2px;
+  transition: background 0.2s;
+}
+.dots:hover > span {
+  background: #333;
+}
+
+.menu ul {
+  list-style: none;
+  padding: 8px 0px;
+  position: absolute;
+  right: 50%;
+  transform: translateY(-20%);
+  background: #fff;
+  box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+  border-radius: 5px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.menu ul li {
+  padding: 12px 12px;
+  white-space: nowrap;
+  letter-spacing: 0;
+  transition: background 0.1s;
+}
+a, a:hover, a:focus, a:active {
+  color: #333;
+  text-decoration: none;
+}
+.menu ul li:hover {
+  background: rgba(0,0,0,0.1);
+}
+.menu ul.open {
+  pointer-events: auto;
+  opacity: 1;
+  transform:translateY(-15%);
+}
+
+main {
+  margin-top:70px;
+  padding: 8px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 3;
+}
+
+.container {
+  width: 80%;
+  max-width:400px;
+  margin: 8px 0px;
+  display: flex;
+  padding:3px;
+  justify-content: space-between;
+  align-items: center;
+  background: #bb2c2c;
+  box-shadow: 0px 0px 5px rgba(0,0,0,0.1);
+  border-radius: 5px;
+}
+
+input {
+  outline:none;
+  border:none;
+  background:none;
+}
+.form-label-group {
+  width: 100%;
+  background:#fff;
+  border-radius:3px;
+  display:flex;
+  align-items:center;
+}
+
+.form-label-group > input {
+  padding: var(--input-padding-y) var(--input-padding-x);
+  height: 50px;
+  width:100%;
+  flex:4.5;
+  font-size:16px;
+}
+.form-label-group > span {
+  flex:0.5;
+  padding-right:8px;
+  width:100%;
+  font-size:1.8rem;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  display:none;
+  text-align: center;
+}
+
+button.action {
+  width: 50px;
+  height: 50px;
+  background: transparent;
+  padding-bottom:5px;
+  outline: none;
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  font-weight:bolder;
+}
+
+.loader {
+  display:none;
+}
+
+.download-container {
+  width:90vw;
+  max-width:500px;
+  margin:8px 16px 0 16px;
+  pointer-events:none;
+  opacity:0;
+  text-align: center;
+  background:#fff;
+  border-radius:5px;
+}
+.download-container.show {
+  pointer-events:auto;
+  opacity:1;
+}
+
+.download-title {
+  padding:8px 12px;
+  line-height: 1;
+}
+.download-player {
+  width:100%;
+  height:215px;
+  background:#000;
+  border-radius:3px;
+}
+
+a.download-thumbnail {
+  padding:8px 8px;
+  margin:0;
+  display:inline-block;
+  width:100%;
+  background:#5a5a5a;
+  color:#fff;
+  text-align: center;
+  border:none;
+  border-radius:5px;
+  cursor:pointer;
+}
+
+.tabs {
+  margin-top:8px;
+  width:100%;
+  font-size:18px;
+  display:flex;
+  justify-content: space-around;
+  align-items: center;
+  background:#eee;
+  border-radius:5px 5px 0 0;
+}
+.tabs span {
+  width:100%;
+  height:100%;
+  padding:8px;
+  background:#eee;
+  border-top:2px solid #eee;
+  border-right:2px solid #eee;
+  border-left:2px solid #eee;
+  border-radius:5px 5px 0 0;
+  transition:background 0.2s;
+}
+.tabs span.selected {
+  background:#fff;
+}
+
+.download-view {
+  width:100%;
+  background:#fff;
+  border-right:2px solid #eee;
+  border-bottom:1px solid #eee;
+  border-left:2px solid #eee;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.download-view .row {
+  padding:8px;
+  border-bottom:1px solid #efefef;
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  text-align:left;
+  font-size:12px;
+}
+.quality, .size {
+  padding:8px;
+  text-align: left;
+}
+.download-btn {
+  padding:8px;
+  background:#5a5a5a;
+  color:#fff;
+  text-align: center;
+  border:none;
+  border-radius:5px;
+  transition:background 0.1s;
+  cursor: pointer;
+}
+.download-btn:hover, .download-btn:active, .download-thumbnail:hover, .download-thumbnail:active {
+  color:#fff;
+  background:#848484;
+}
+
+.download-video, .download-audio {
+  display:none;
+}
+</style>
+<script>
+window.addEventListener('load', onstart)
+document.addEventListener('click', e => {
+  var menu = document.querySelector(".menu ul")
+  if (!(e.target.matches('.menu ul li') || e.target.matches('.menu ul li a'))) {
+    // pas klik diluar menu
+    if (e.target.matches('.dots') || e.target.matches('.dots span')) {
+      menu.classList.toggle('open')
+    } else if (menu.className == "open") {
+      menu.className = ""
+    } else {
+      menu.className = ""
+    }
+  } else {
+    menu.className = ""
+  }
+})
+
+function onstart() {
+  var profileMenu = document.querySelector("#profile")
+  var apiMenu = document.querySelector("#api-direct")
+  var tutorialMenu = document.querySelector("#tutorial")
+
+  profileMenu.addEventListener('click',
+    profile)
+  apiMenu.addEventListener('click',
+    redirect)
+  tutorialMenu.addEventListener('click',
+    tutorial)
+    
+    document.querySelector('.menu ul').style.transition = "all 0.2s"
+    document.querySelector('.download-container').style.transition = "opacity 0.2s"
+
+  var input = document.querySelector('#url-input')
+  var clearBtn = document.querySelector('.form-label-group > span')
+
+  var prosesBtn = document.querySelector('.action')
+
+  input.addEventListener('input',
+    e => {
+      input.value == "" ? clearBtn.style.display = "none": clearBtn.style.display = "block"
+    })
+
+  clearBtn.addEventListener('click',
+    () => {
+      input.value = ""
+      clearBtn.style.display = "none"
+    })
+
+  prosesBtn.addEventListener('click',
+    () => {
+      input.value == '' || !input.value.includes('youtu') ? alert('please input a valid youtube video link'): prosessing(getVideoId(input.value))
+    })
+}
+
+function profile() {
+  document.querySelector("#profile > a").click()
+}
+
+function redirect() {
+  document.querySelector("#api-direct > a").click()
+}
+
+function tutorial() {
+  var text = `
+  just put url inside the input box\nduuhhh
+  `
+  alert(text.trim())
+}
+
+function getVideoId(videoUrl) {
+  var splitUrl = videoUrl.split('/')
+  var idPos = splitUrl[3]
+  if (idPos.includes('watch?v=')) return idPos.replace('watch?v=', '').split('&')[0]
+  return idPos.split('\\?')[0]
+}
+
+function prosessing(videoId) {
+  console.clear()
+  console.log('%cvideo id: ' + videoId,
+    `
+    color:#b3ffffff;
+    font-weight:bold;
+    `)
+
+  var videoEmbed = "https://www.youtube.com/embed/" + videoId
+  var mp4Rq = false
+  var mp3Rq = false
+
+  var mp4 = []
+  var mp3 = []
+
+  var loader = document.querySelector('.loader')
+  var downloadContainer = document.querySelector('.download-container')
+  var prosesBtn = document.querySelector('.action')
+  var inputBox = document.querySelector('#url-input')
+  var tabsItem = document.querySelectorAll('.tabs span')
+  
+  var thumbnail = document.querySelector('.download-thumbnail')
+  var title = document.querySelector('.download-title')
+  var player = document.querySelector('.download-player')
+  var downloadMeta = document.querySelector('.download-view')
+
+  prosesBtn.style.pointerEvents = 'none'
+
+  downloadContainer.classList.remove('show')
+  loader.style.display = 'block'
+
+  tabsItem.forEach((tab, index) => {
+    tab.addEventListener('click', () => {
+      tab.parentElement.querySelector('.selected').className = ""
+      tab.className = "selected"
+      var videoShow = document.querySelector('.download-video')
+      var audioShow = document.querySelector('.download-audio')
+      if (tab == tabsItem[0]) {
+        videoShow.style.display = "block"
+        audioShow.style.display = "none"
+      } else {
+        videoShow.style.display = "none"
+        audioShow.style.display = "block"
+      }
+    })
+  })
+
+  var errorOccured = (state) => {
+    console.log('error')
+    alert('error occured with ready state: ' + state)
+    loader.style.display = "none"
+    downloadContainer.classList.remove('show')
+    prosesBtn.style.pointerEvents = 'auto'
+  }
+
+  var createView = (videoRqDone, audioRqDone, titleText) => {
+    if (!(videoRqDone && audioRqDone)) {
+      return
+    }
+
+    title.innerText = titleText
+    player.src = videoEmbed
+    loader.style.display = "none"
+    downloadContainer.classList.add('show')
+    prosesBtn.style.pointerEvents = 'auto'
+
+    var videoAdapter = document.querySelector('.download-video')
+    videoAdapter.style.display = "block"
+    var audioAdapter = document.querySelector('.download-audio')
+    
+    videoAdapter.innerHTML = ""
+    audioAdapter.innerHTML = ""
+
+    mp4.forEach(item => {
+      var div = document.createElement('div')
+      div.className = "row"
+      var quality = document.createElement('span')
+      quality.className = "quality"
+      quality.innerText = item.quality
+      div.append(quality)
+      var size = document.createElement('span')
+      size.className = "size"
+      size.innerText = item.size
+      div.append(size)
+      var downloadBtn = document.createElement('a')
+      downloadBtn.className = "download-btn"
+      downloadBtn.href = item.url
+      downloadBtn.innerText = "DOWNLOAD"
+      div.append(downloadBtn)
+      videoAdapter.append(div)
+    })
+    mp3.forEach(item => {
+      var div = document.createElement('div')
+      div.className = "row"
+      var quality = document.createElement('span')
+      quality.className = "quality"
+      quality.innerText = item.quality
+      div.append(quality)
+      var size = document.createElement('span')
+      size.className = "size"
+      size.innerText = item.size
+      div.append(size)
+      var downloadBtn = document.createElement('a')
+      downloadBtn.className = "download-btn"
+      downloadBtn.href = item.url
+      downloadBtn.innerText = "DOWNLOAD"
+      div.append(downloadBtn)
+      audioAdapter.append(div)
+    })
+    console.log("done")
+  }
+
+  console.log('getting data from server...')
+
+  // prosessing video converter
+  var videoRequest = new XMLHttpRequest();
+  videoRequest.open('GET', 'https://www.yt-download.org/api/widget/videos/' + videoId);
+  videoRequest.responseType = "document"
+  videoRequest.onprogress = () => {
+    if (navigator.onLine) {} else {
+      errorOccured(videoRequest.readyState)
+    }
+  }
+  videoRequest.onload = function () {
+    if (videoRequest.readyState == videoRequest.DONE && videoRequest.status == 200) {
+      mp4Rq = true
+      var respon = videoRequest.responseXML
+      thumbnail.href = respon.querySelector('img').src
+      console.log(respon.querySelector('img').src)
+
+      try {
+        var div = respon.querySelector(".download");
+        var links = div.querySelectorAll("a");
+        if (typeof links !== 'undefined' && links.length <= 0) {
+          var error = div.querySelector("h3");
+          console.log("Something went wrong");
+          for (var desc of error) {
+            // when error or something wrong
+            console.log(desc.innerText);
+          }
+        } else {
+          links.forEach(e => {
+            mp4.push({
+              url: e.href,
+              format: e.innerText.split(" ")[32].replace("\n", ""),
+              quality: e.innerText.split(" ")[184].replace("\n", ""),
+              size: e.innerText.split(" ")[396].replace("\n", "") + " " + e.innerText.split(" ")[397].replace("\n", "")
+            })
+          })
+        }
+      } catch (e) {
+        
+      }
+      createView(mp4Rq, mp3Rq, respon.querySelector('h2').innerText.trim())
+    } else {
+      alert('Something error with the API')
+    }
+  };
+  videoRequest.timeout = 10000
+  videoRequest.ontimeout = () => {
+    errorOccured(videoRequest.readyState)
+  }
+  videoRequest.send();
+
+  // prosessing audio converter
+  var audioRequest = new XMLHttpRequest();
+  audioRequest.open('GET', 'https://www.yt-download.org/api/widget/mp3/' + videoId);
+  audioRequest.responseType = "document"
+  audioRequest.onprogress = () => {
+    if (navigator.onLine) {} else {
+      errorOccured(audioRequest.readyState)
+    }
+  }
+  audioRequest.onload = function () {
+    if (audioRequest.readyState == audioRequest.DONE && audioRequest.status == 200) {
+      mp3Rq = true
+      var respon = audioRequest.responseXML
+
+      try {
+        var div = respon.querySelector(".download");
+        var links = div.querySelectorAll("a");
+        if (typeof links !== 'undefined' && links.length <= 0) {
+          var error = div.querySelector("h3");
+          console.log("Something went wrong");
+          for (var desc of error) {
+            // when error or something wrong
+            console.log(desc.innerText);
+          }
+        } else {
+          links.forEach(e => {
+            mp3.push({
+              url: e.href,
+              format: e.innerText.split(" ")[32].replace("\n", ""),
+              quality: e.innerText.split(" ")[100] + " " + e.innerText.split(" ")[101].replace("\n", ""),
+              size: e.innerText.split(" ")[237] + " " + e.innerText.split(" ")[238].replace("\n", "")
+            })
+          })
+        }
+      } catch (e) {
+        
+      }
+
+      createView(mp4Rq, mp3Rq, respon.querySelector('h2').innerText.trim())
+    } else {
+      alert('Something error with the API')
+    }
+  };
+  audioRequest.timeout = 10000
+  audioRequest.ontimeout = () => {
+    errorOccured(audioRequest.readyState)
+  }
+  audioRequest.send();
+}
+</script>
+</html>
